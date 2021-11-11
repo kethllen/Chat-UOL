@@ -6,8 +6,8 @@ function enviarUsuario(){
     const botaoEntrar = document.querySelector(".submeterUsuario");
     const carregando = document.querySelector(".carregando");
     const span = document.querySelector(".paginaInicial span");
- 
-    usuario.name = entrada.value;
+    const nome = entrada.value;
+    usuario.name = nome;
     
     entrada.classList.add("escondida");
     botaoEntrar.classList.add("escondida");
@@ -52,6 +52,14 @@ function carregarMensagem(resposta){
     const mensagens = document.querySelector(".mensagens")
     mensagens.innerHTML="";
     for(let i=0; i< Object.keys(listamensagens).length; i++){
+        if((listamensagens[i].from).length > 15)
+        {
+            listamensagens[i].from = (listamensagens[i].from).substring(0,15);
+        }
+        if((listamensagens[i].from).length > 15)
+        {
+            listamensagens[i].to = (listamensagens[i].to).substring(0,15);
+        }
         if(listamensagens[i].type == 'status'){
             mensagens.innerHTML += `
             <div class ="mensagem entrarSala">

@@ -1,4 +1,5 @@
 const usuario = {}
+let controler = false;
 
 function enviarUsuario(){
     const entrada = document.querySelector(".paginaInicial input");
@@ -15,39 +16,41 @@ function enviarUsuario(){
 
     const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants",usuario);
     promessa.then(pegarMensagem);
-    promessa.catch(erro);
-
-
-}
-function erro(retorno){
-    console.log("deu xabu");
+    promessa.catch(tratarErro);
 }
 
-function pegarMensagem(retorno){
+function pegarMensagem(retorno = ""){
+    if(controler == false){
+        controler = true;
+        setInterval(() => { verificarLogin();}, 5000);
+    }
     const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promessa.then(carregarMensagem);
+    promessa.catch(tratarErro);
 }
 
 function verificarLogin(){
     const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/status",usuario);
     promessa.then(verificar);
-    promessa.catch(erro);
+    promessa.catch(tratarErro);
 }
 
 function verificar(resposta){
     //verificar se chegou mesadem nova
 }
 
+function tratarErro(erro){
+    console.log(erro);
+}
+
 
 function carregarMensagem(resposta){
-    
-    setInterval(() => { verificarLogin();}, 5000);
-
     const entrada = document.querySelector(".paginaInicial");
     let listamensagens = resposta.data;
     let cont =0;
     const paginaMensagem = document.querySelector(".paginaMensagem")
     const mensagens = document.querySelector(".mensagens")
+    mensagens.innerHTML="";
     for(let i=0; i< Object.keys(listamensagens).length; i++){
         if(listamensagens[i].type == 'status'){
             mensagens.innerHTML += `
@@ -69,4 +72,35 @@ function carregarMensagem(resposta){
     }
     entrada.classList.add("escondida");
     paginaMensagem.classList.remove("escondida");
+}
+
+const inputmsg = document.querySelector(".mensagemDigitada");
+inputmsg.addEventListener('keyup', function(e){
+  var key = e.which || e.keyCode;
+  if (key == 13) {
+      enviarMensagem();
+  }
+});
+
+const inputnome = document.querySelector(".nome");
+inputnome.addEventListener('keyup', function(e){
+  var key = e.which || e.keyCode;
+  if (key == 13) {
+      enviarUsuario();
+  }
+});
+
+function enviarMensagem(){
+    const inputmsg = document.querySelector(".mensagemDigitada");
+    const mensagem ={
+            from: usuario.name,
+            to: "Todos",
+            text: inputmsg.value,
+            type: "message" // ou "private_message" para o bônus
+        }
+    const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
+    promessa.then(pegarMensagem);
+    inputmsg.value = "";
+    promessa.catch(tratarErro);
+
 }

@@ -63,18 +63,18 @@ function carregarMensagem(resposta){
         if(listamensagens[i].type == 'status'){
             mensagens.innerHTML += `
             <div class ="mensagem entrarSala">
-                <span class="horario">${listamensagens[i].time}</span>
-                <span class="nomeUsuario">${listamensagens[i].from}</span>
-                <span class="texto">${listamensagens[i].text}</span>
+                <div class="horario">${listamensagens[i].time}</div>
+                <div class="nomeUsuario">${listamensagens[i].from}</div>
+                <div class="texto">${listamensagens[i].text}</div>
             </div> `          
         }else if(listamensagens[i].type == "message"){
             mensagens.innerHTML += `
             <div class ="mensagem mensagemComum">
-                <span class="horario">${listamensagens[i].time}</span>
-                <span class="nomeUsuario">${listamensagens[i].from}</span>
-                <span class="texto">para</span>
-                <span class="nomeUsuario">${listamensagens[i].to}:</span>
-                <span class="texto">${listamensagens[i].text}</span>
+                <div class="horario">${listamensagens[i].time}</div>
+                <div class="nomeUsuario">${listamensagens[i].from}</div>
+                <span class="texto2">para</span>
+                <div class="nomeUsuario">${listamensagens[i].to}:</div>
+                <div class="texto">${listamensagens[i].text}</div>
             </div> `    
         }
     }

@@ -271,6 +271,9 @@ textarea:focus, .paginaInicial input:focus, select:focus {
 }
 
 .tituloUsuarios{
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 85px;
   width: 260px;
   font-size: 16px;
@@ -305,6 +308,9 @@ textarea:focus, .paginaInicial input:focus, select:focus {
 }
 
 .tituloVisibilidade{
+    display: flex;
+  align-items: center;
+  justify-content: center;
   height: 66px;
   width: 260px;
   font-size: 16px;
@@ -314,6 +320,12 @@ textarea:focus, .paginaInicial input:focus, select:focus {
   letter-spacing: 0em;
   text-align: center;
 }
+.check{
+  color: #28BB25;
+  height: 7px;
+  width: 9px;
+  margin-right: 20px;
+}
 
 .visibilidade{
   height: 36px;
@@ -322,6 +334,7 @@ textarea:focus, .paginaInicial input:focus, select:focus {
   margin-right: 20px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 .visibilidade ion-icon{
   height: 17px;

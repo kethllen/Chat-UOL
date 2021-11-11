@@ -23,6 +23,7 @@ function pegarMensagem(retorno = ""){
     if(controler == false){
         controler = true;
         setInterval(() => { verificarLogin();}, 5000);
+        setInterval(() => { recarregarMensagem();}, 3000);
     }
     const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promessa.then(carregarMensagem);
@@ -45,6 +46,7 @@ function tratarErro(erro){
 
 
 function carregarMensagem(resposta){
+
     const entrada = document.querySelector(".paginaInicial");
     let listamensagens = resposta.data;
     let cont =0;
@@ -110,7 +112,12 @@ function enviarMensagem(){
     promessa.then(pegarMensagem);
     inputmsg.value = "";
     promessa.catch(tratarErro);
+}
 
+function recarregarMensagem(){
+    const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
+    promessa.then(carregarMensagem);
+    promessa.catch(tratarErro);
 }
 
 function usuariosAtivos(){

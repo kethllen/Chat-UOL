@@ -104,3 +104,9 @@ function enviarMensagem(){
     promessa.catch(tratarErro);
 
 }
+
+function usuariosAtivos(){
+    const paginaMensagem = document.querySelector(".classificarMsg")
+    paginaMensagem.classList.remove("escondida");
+
+}

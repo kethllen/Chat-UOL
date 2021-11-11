@@ -22,7 +22,7 @@
     <section class = "paginaMensagem escondida">
         <header>
             <img class = "logo" src="./assets/logo 1.png" alt="">
-            <ion-icon class = "ion-usuarios" name="people"></ion-icon>
+            <ion-icon class = "ion-usuarios" name="people" onclick="usuariosAtivos()"></ion-icon>
         </header>
         <main class="mensagens">
         </main>
@@ -32,6 +32,29 @@
             </div>
             <ion-icon class="ion-aviao" name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
         </footer>
+    </section>
+    <section class="classificarMsg escondida">
+        <div class="conteudo">
+            <div class="tituloUsuarios">
+                Escolha um contato<br>
+                para enviar mensagem:
+            </div>
+            <div class="usuarios">
+                <div class="usuario">
+                    <ion-icon name="people"></ion-icon>
+                    <span>Todos</span>
+                </div>
+            </div>
+            <div class="tituloVisibilidade">
+                Escolha a visibilidade:
+            </div>
+            <div class="escolhaVisibilidade">
+                <div class="visibilidade">
+                    <ion-icon name="lock-open"></ion-icon>
+                    <span>Public</span>
+                </div>
+            </div>
+        </div>
     </section>
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 

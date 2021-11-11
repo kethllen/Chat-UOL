@@ -1,0 +1,239 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+body {
+    width: 100%;
+    background-color: #E5E5E5;
+ }
+ .paginaInicial{
+  background-color: #FFFFFF;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 72px;
+}
+.paginaInicial input::placeholder {
+  color: #AEAEAE;
+  text-align: center;
+}
+
+.submeterUsuario{
+  height: 45px;
+  width: 109px;
+  border : none;
+  border-radius: 9px;
+  
+  background-color: #E7E7E7;
+
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #696969;
+
+
+}
+ header{
+   z-index: 7;
+   position: fixed;
+   width: 100%;
+   height: 80px;
+   padding-left: 22px;
+   padding-right: 22px;
+   display:flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   background: #FFFFFF;
+   box-shadow: 0px 4px 6px 0px #0000000D;
+ }
+
+ footer{
+  z-index: 5;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  height: 80px;
+  padding-left: 17px;
+  padding-right: 17px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 6px 0px #0000000D;
+}
+header .logo{
+  height: 53px;
+  width: 75px;
+}
+
+.paginaInicial .logo{
+  height: 92px;
+  width: 130px;
+  margin-bottom: 94px;
+}
+
+.paginaInicial input{
+  height: 54px;
+  width: 261px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  border: 1px solid #D7D7D7;
+}
+
+.botaoEntrar{
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #696969;
+
+  background-color: #E7E7E7;
+  height: 45px;
+  width: 109px;
+  border-radius: 9px;
+}
+
+.ion-usuarios{
+  height: 31px;
+  width: 42px;
+}
+.ion-aviao{
+  height: 26px;
+  width: 26px;
+}
+
+.mensagem{
+  width: 100%;
+  border-radius: 2px;
+  height: 40px;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
+
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.horario{
+  color: #AAAAAA;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.entrarSala{
+  background-color: #DCDCDC;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 4px;
+}
+.mensagemReservada{
+  background-color: #FFDEDE;
+  margin-bottom: 4px;
+}
+.mensagemComum{
+  background-color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.usuario{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.enviarMensagem input::placeholder{
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+.texto{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
+}
+.enviarMensagem input{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
+  border: none;
+
+}
+textarea:focus, .enviarMensagem input:focus, select:focus {
+  box-shadow: 0 0 0 0;
+  border: 0 none;
+  outline: 0;
+} 
+
+textarea:focus, .paginaInicial input:focus, select:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
+} 
+
+.paginaInicial span{
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  color: grey;
+}
+
+.mensagens{
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.carregando{
+  width: 200px;
+  height: 150px;
+  margin-bottom: 15px;
+}
+
+.escondida{
+  display : none;
+}

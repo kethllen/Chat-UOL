@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>ChatUOL</title>
+</head>
+<body>
+    <section class="paginaInicial">
+        <img class = "logo" src="./assets/logo 2.png" alt="">
+        <input type="text" placeholder="Digite seu nome">
+        <button class ="submeterUsuario" onclick="enviarUsuario()">Enviar</button>
+        <img class ="carregando escondida" src="./assets/Loading.gif" alt="">
+        <span class="escondida">Entrando...</span>
+    </section>
+    <section class = "paginaMensagem escondida">
+        <header>
+            <img class = "logo" src="/Projeto5-ChatUol/assets/logo 1.png" alt="">
+            <ion-icon class = "ion-usuarios" name="people"></ion-icon>
+        </header>
+        <main class="mensagens">
+        </main>
+        <footer>
+            <div class="enviarMensagem">
+                <input type="text" placeholder="Escreva aqui ...">
+            </div>
+            <ion-icon class="ion-aviao" name="paper-plane-outline"></ion-icon>
+        </footer>
+    </section>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="script.js"></script>
+</body>
+</html>

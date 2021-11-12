@@ -308,7 +308,7 @@ textarea:focus, .paginaInicial input:focus, select:focus {
 }
 
 .tituloVisibilidade{
-    display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   height: 66px;
@@ -326,6 +326,22 @@ textarea:focus, .paginaInicial input:focus, select:focus {
   width: 9px;
   margin-right: 20px;
 }
+.espacoMensagem{
+  display: flex;
+  flex-direction: column;
+}
+.espacoMensagem label{
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #696969;
+  position: absolute;
+  bottom: 2px;
+}
+
 
 .visibilidade{
   height: 36px;

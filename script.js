@@ -1,18 +1,22 @@
 const usuario = {}
-let controler = false;
+let entrandoPrimeiraVez = true;
+let PaginaInicialParaMensagem = false;
+let modoVisibilidade = "Público";
+let tipoUsuario = "Todos";
 
-function enviarUsuario(){
+function trocarPagina(paginaAtual, proximaPagina){
+    const pagina1 = document.querySelector(paginaAtual);
+    const pagina2 = document.querySelector(proximaPagina);
+
+    pagina1.classList.toggle("escondida");
+    pagina2.classList.toggle("escondida");
+}
+
+function enviarUsuario(paginaAtual, proximaPagina){
     const entrada = document.querySelector(".paginaInicial input");
-    const botaoEntrar = document.querySelector(".submeterUsuario");
-    const carregando = document.querySelector(".carregando");
-    const span = document.querySelector(".paginaInicial span");
     const nome = entrada.value;
     usuario.name = nome;
-    
-    entrada.classList.add("escondida");
-    botaoEntrar.classList.add("escondida");
-    carregando.classList.remove("escondida"); 
-    span.classList.remove("escondida");
+    trocarPagina(paginaAtual, proximaPagina);
 
     const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants",usuario);
     promessa.then(pegarMensagem);
@@ -20,8 +24,8 @@ function enviarUsuario(){
 }
 
 function pegarMensagem(retorno = ""){
-    if(controler == false){
-        controler = true;
+    if(entrandoPrimeiraVez == true){
+        entrandoPrimeiraVez = false;
         setInterval(() => { verificarLogin();}, 5000);
         setInterval(() => { recarregarMensagem();}, 3000);
     }
@@ -36,12 +40,50 @@ function verificarLogin(){
     promessa.catch(tratarErro);
 }
 
+function textoPlaceHolder(visibilidade, pessoa){
+    const frase = document.querySelector(".frasePlaceholder");
+    frase.innerHTML = `Enviando para ${pessoa} (${visibilidade})`
+}
+
 function verificar(resposta){
     //verificar se chegou mesadem nova
 }
 
+function checkVisibilidade(opcao){
+    const visibilidade = document.querySelector(".checkVisi");
+
+    visibilidade.classList.remove("checkVisi");
+    visibilidade.querySelector(".checkVisibilidade").classList.add("escondida");
+
+    opcao.classList.add("checkVisi");
+    opcao.querySelector(".checkVisibilidade").classList.remove("escondida");
+    modoVisibilidade = opcao.querySelector(".modomsg").innerHTML;
+
+}
+
+function checkUsuario(opcao){
+    const usuarioAtivo = document.querySelector(".checkUser");
+
+    if(usuarioAtivo !== null) {
+        usuarioAtivo.classList.remove("checkUser");
+        usuarioAtivo.querySelector("ion-icon").classList.add("escondida");
+    }
+    opcao.classList.add("checkUser");
+    opcao.querySelector("ion-icon").classList.remove("escondida");
+    tipoUsuario = opcao.querySelector(".tipoUsuario").innerHTML;
+    
+}
+
 function tratarErro(erro){
-    console.log(erro);
+    if(erro.response.status == 400){
+
+        trocarPagina(".paginaCarregando", ".paginaPedirDados");
+        const nomeUsuario = document.querySelector(".nome");
+        nomeUsuario.value = "";
+        nomeUsuario.classList.add("nomeIncorreto");
+        nomeUsuario.placeholder ="nome de usuario invalido";
+    }
+    console.log(erro.response);
 }
 
 
@@ -80,8 +122,10 @@ function carregarMensagem(resposta){
             </div> `    
         }
     }
-    entrada.classList.add("escondida");
-    paginaMensagem.classList.remove("escondida");
+    if(PaginaInicialParaMensagem == false){
+        PaginaInicialParaMensagem = true;
+        trocarPagina(".paginaInicial",".paginaMensagem");
+    }
 }
 
 const inputmsg = document.querySelector(".mensagemDigitada");
@@ -124,4 +168,10 @@ function usuariosAtivos(){
     const paginaMensagem = document.querySelector(".classificarMsg")
     paginaMensagem.classList.remove("escondida");
 
+}
+
+function voltarPaginaMsg(){
+    const paginaMensagem = document.querySelector(".classificarMsg");
+    paginaMensagem.classList.add("escondida");
+    textoPlaceHolder(modoVisibilidade, tipoUsuario);
 }

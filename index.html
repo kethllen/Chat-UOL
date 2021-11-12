@@ -14,10 +14,14 @@
 <body>
     <section class="paginaInicial">
         <img class = "logo" src="./assets/logo 2.png" alt="">
-        <input  class= "nome" type="text" placeholder="Digite seu nome">
-        <button class ="submeterUsuario" onclick="enviarUsuario()">Enviar</button>
-        <img class ="carregando escondida" src="./assets/Loading.gif" alt="">
-        <span class="escondida">Entrando...</span>
+        <div class="paginaPedirDados">
+            <input  class= "nome" type="text" placeholder="Digite seu nome">
+            <button class ="submeterUsuario" onclick="enviarUsuario('.paginaPedirDados','.paginaCarregando')">Enviar</button>
+        </div>
+        <div class="paginaCarregando escondida">
+            <img class ="carregando" src="./assets/Loading.gif" alt="">
+            <span>Entrando...</span>
+        </div>
     </section>
     <section class = "paginaMensagem escondida">
         <header>
@@ -29,43 +33,45 @@
         <footer>
             <div class="espacoMensagem">
                 <input class= "mensagemDigitada" type="text" placeholder="Escreva aqui ...">
-                <label>Enviando mensagem reservadamente</label>
+                <label class= "frasePlaceholder">Enviando para Todos (Público)</label>
             </div>
             <ion-icon class="ion-aviao" name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
         </footer>
     </section>
     <section class="classificarMsg escondida">
+        <div class="partePreta" onclick="voltarPaginaMsg()">
+        </div>
         <div class="conteudo">
             <div class="tituloUsuarios">
                 Escolha um contato<br>
                 para enviar mensagem:
             </div>
             <div class="usuarios">
-                <div class="usuario">
+                <div class="usuario checkUser" onclick="checkUsuario(this)">
                     <div class="nomeUsuario">
                         <ion-icon name="people"></ion-icon>
-                        <span>Todos</span>
+                        <span class="tipoUsuario">Todos</span>
                     </div>
-                    <ion-icon class="check" name="checkmark-sharp"></ion-icon>
+                    <ion-icon class="checkUsuario" name="checkmark-sharp"></ion-icon>
                 </div>
             </div>
             <div class="tituloVisibilidade">
                 Escolha a visibilidade:
             </div>
             <div class="escolhaVisibilidade">
-                <div class="visibilidade">
+                <div class="visibilidade checkVisi" onclick="checkVisibilidade(this)">
                     <div class =".nomeVisibilidade">
                         <ion-icon name="lock-open"></ion-icon>
-                        <span>Public</span>
+                        <span class="modomsg">Public</span>
                     </div>
-                    <ion-icon class="check" name="checkmark-sharp"></ion-icon>
+                    <ion-icon class="checkVisibilidade" name="checkmark-sharp"></ion-icon>
                 </div>
-                <div class="visibilidade">
+                <div class="visibilidade" onclick="checkVisibilidade(this)">
                     <div class =".nomeVisibilidade">
                         <ion-icon name="lock-closed"></ion-icon>
-                        <span>Reservadamente</span>
+                        <span class="modomsg">Reservadamente</span>
                     </div>
-                    <ion-icon class="check escondida" name="checkmark-sharp"></ion-icon>
+                    <ion-icon class="checkVisibilidade escondida" name="checkmark-sharp"></ion-icon>
                 </div>
             </div>
         </div>

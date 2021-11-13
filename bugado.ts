@@ -3,8 +3,7 @@ let entrandoPrimeiraVez = true;
 let PaginaInicialParaMensagem = false;
 let modoVisibilidade = "Público";
 let tipoUsuario = "Todos";
-let mensagensRetorno;
-let participantesAtivos=[];
+let mensagensRetorno = null;
 
 function trocarPagina(paginaAtual, proximaPagina){
     const pagina1 = document.querySelector(paginaAtual);
@@ -15,14 +14,18 @@ function trocarPagina(paginaAtual, proximaPagina){
 }
 
 function enviarUsuario(paginaAtual, proximaPagina){
-    const entrada = document.querySelector(".paginaInicial input");
+    console.log("oi");
+    const entrada = document.querySelector(".nome");
+    console.log(entrada)
     const nome = entrada.value;
     usuario.name = nome;
+    console.log("vou trocar pagina");
     trocarPagina(paginaAtual, proximaPagina);
-
+    console.log("troquei");
     const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/participants",usuario);
     promessa.then(pegarMensagem);
     promessa.catch(tratarErro);
+    console.log("fizPromessa");
 }
 
 function pegarMensagem(retorno = ""){
@@ -47,52 +50,10 @@ function textoPlaceHolder(visibilidade, pessoa){
     frase.innerHTML = `Enviando para ${pessoa} (${visibilidade})`
 }
 
-function verificar(resposta){
-    //verificar se chegou mesadem nova
+function verificar(retorno){
+
 }
-function verificarParticipantesAtivos(){
-    const online = document.querySelector(".usuarios");
-    for(let i=0; i< Object.keys(mensagensRetorno).length; i++){
-        if(mensagensRetorno[i].type == 'status'){
-            if(i == 0){
-                participantesAtivos.push({
-                    from: mensagensRetorno[i].from,
-                    cont: 1
-                });
-                console.log(participantesAtivos);
-            }
-            else{
-                let controle=false;
-                for(let j=0; j < Object.keys(participantesAtivos).length; j++){
-                    if(mensagensRetorno[i].from == participantesAtivos[j].from){
-                        participantesAtivos[j].cont = participantesAtivos[j].cont + 1;
-                        controle = true;
-                    }
-                }
-                if(controle == false){
-                    participantesAtivos.push({
-                        from: mensagensRetorno[i].from,
-                        cont: 1
-                    });
-                }
-            }
-            
-        }
-    }
-    for(let j=0; j < Object.keys(participantesAtivos).length; j++){
-        if((participantesAtivos[j].cont) % 2 !== 0){
-            online.innerHTML +=`
-            <div class="usuario checkUser" onclick="checkUsuario(this)">
-                <div class="nomeUsuario">
-                    <ion-icon name="people"></ion-icon>
-                    <span class="tipoUsuario">${participantesAtivos[j].from}</span>
-                </div>
-            <ion-icon class="checkUsuario escondida" name="checkmark-sharp"></ion-icon>
-            </div>`
-        }
-    }
-    //verificar se chegou mesadem nova
-}
+
 
 function checkVisibilidade(opcao){
     const visibilidade = document.querySelector(".checkVisi");
@@ -109,12 +70,12 @@ function checkVisibilidade(opcao){
 function checkUsuario(opcao){
     const usuarioAtivo = document.querySelector(".checkUser");
 
-   
-    usuarioAtivo.classList.remove("checkUser");
-    usuarioAtivo.querySelector(".checkUsuario").classList.add("escondida");
-    
+    if(usuarioAtivo !== null) {
+        usuarioAtivo.classList.remove("checkUser");
+        usuarioAtivo.querySelector("ion-icon").classList.add("escondida");
+    }
     opcao.classList.add("checkUser");
-    opcao.querySelector(".checkUsuario").classList.remove("escondida");
+    opcao.querySelector("ion-icon").classList.remove("escondida");
     tipoUsuario = opcao.querySelector(".tipoUsuario").innerHTML;
     
 }
@@ -127,17 +88,17 @@ function tratarErro(erro){
         nomeUsuario.value = "";
         nomeUsuario.classList.add("nomeIncorreto");
         nomeUsuario.placeholder ="nome de usuario invalido";
+    }else{
+        console.log(erro.response);
+        window.location.reload();
     }
-    console.log(erro.response);
+    
 }
 
 
 function carregarMensagem(resposta){
 
-    const entrada = document.querySelector(".paginaInicial");
     let listamensagens = resposta.data;
-    let cont =0;
-    const paginaMensagem = document.querySelector(".paginaMensagem")
     const mensagens = document.querySelector(".mensagens")
     mensagens.innerHTML="";
     for(let i=0; i< Object.keys(listamensagens).length; i++){
@@ -149,14 +110,15 @@ function carregarMensagem(resposta){
         {
             listamensagens[i].to = (listamensagens[i].to).substring(0,15);
         }
-        if(listamensagens[i].type == 'status'){
+        if(i!=(Object.keys(listamensagens).length)-1){
+            if(listamensagens[i].type == 'status'){
                 mensagens.innerHTML += `
                 <div class ="mensagem entrarSala">
                     <div class="horario">${listamensagens[i].time}</div>
                     <div class="nomeUsuario">${listamensagens[i].from}</div>
                     <div class="texto">${listamensagens[i].text}</div>
                 </div> `          
-        }else if(listamensagens[i].type == "message"){
+            }else if(listamensagens[i].type == "message"){
                 mensagens.innerHTML += `
                 <div class ="mensagem mensagemComum">
                     <div class="horario">${listamensagens[i].time}</div>
@@ -165,25 +127,57 @@ function carregarMensagem(resposta){
                     <div class="nomeUsuario">${listamensagens[i].to}:</div>
                     <div class="texto">${listamensagens[i].text}</div>
                 </div> `    
-        }else if(listamensagens[i].type =='private_message'){
-            if(listamensagens[i].from == usuario.name || listamensagens[i].to == usuario.name){
+            }else if(listamensagens[i].type =='private_message'){
+                if(listamensagens[i].from == usuario.name || listamensagens[i].to == usuario.name){
                     mensagens.innerHTML += `
-                    <div class ="mensagem mensagemReservada">
+                    <div class ="mensagem .mensagemReservada">
                         <div class="horario">${listamensagens[i].time}</div>
                         <div class="nomeUsuario">${listamensagens[i].from}</div>
                         <span class="texto2">para</span>
                         <div class="nomeUsuario">${listamensagens[i].to}:</div>
                         <div class="texto">${listamensagens[i].text}</div>
                     </div> `    
-           }
-        }
-        mensagensRetorno = listamensagens;
-        
+                }
+        }else{
+            if(listamensagens[i].type == 'status'){
+                mensagens.innerHTML += `
+                <div class ="mensagem entrarSala ultimo">
+                    <div class="horario">${listamensagens[i].time}</div>
+                    <div class="nomeUsuario">${listamensagens[i].from}</div>
+                    <div class="texto">${listamensagens[i].text}</div>
+                </div> `          
+            }else if(listamensagens[i].type == "message"){
+                mensagens.innerHTML += `
+                <div class ="mensagem mensagemComum ultimo">
+                    <div class="horario">${listamensagens[i].time}</div>
+                    <div class="nomeUsuario">${listamensagens[i].from}</div>
+                    <span class="texto2">para</span>
+                    <div class="nomeUsuario">${listamensagens[i].to}:</div>
+                    <div class="texto">${listamensagens[i].text}</div>
+                </div> `    
+            }else if(listamensagens[i].type =='private_message'){
+                if(listamensagens[i].from == usuario.name || listamensagens[i].to == usuario.name){
+                    mensagens.innerHTML += `
+                    <div class ="mensagem .mensagemReservada ultimo">
+                        <div class="horario">${listamensagens[i].time}</div>
+                        <div class="nomeUsuario">${listamensagens[i].from}</div>
+                        <span class="texto2">para</span>
+                        <div class="nomeUsuario">${listamensagens[i].to}:</div>
+                        <div class="texto">${listamensagens[i].text}</div>
+                    </div> `    
+                }
+            }
+            if(mensagensRetorno !== null && mensagensAtuais[(Object.keys(mensagensAtuais).length)-1] !== mensagensRetorno[(Object.keys(mensagensRetorno).length)-1]){
+                const elementoQueQueroQueApareca = document.querySelector('.ultimo');
+                elementoQueQueroQueApareca.scrollIntoView();
+            }
+        }      
     }
     if(PaginaInicialParaMensagem == false){
         PaginaInicialParaMensagem = true;
         trocarPagina(".paginaInicial",".paginaMensagem");
     }
+    mensagensRetorno = listamensagens;
 }
 
 const inputmsg = document.querySelector(".mensagemDigitada");
@@ -198,7 +192,7 @@ const inputnome = document.querySelector(".nome");
 inputnome.addEventListener('keyup', function(e){
   var key = e.which || e.keyCode;
   if (key == 13) {
-      enviarUsuario();
+      enviarUsuario('.paginaPedirDados','.paginaCarregando');
   }
 });
 
@@ -208,7 +202,7 @@ function enviarMensagem(){
             from: usuario.name,
             to: "Todos",
             text: inputmsg.value,
-            type: "message" // ou "private_message" para o bônus
+            type: "message"
         }
     const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
     promessa.then(pegarMensagem);
@@ -225,8 +219,7 @@ function recarregarMensagem(){
 function usuariosAtivos(){
     const paginaMensagem = document.querySelector(".classificarMsg")
     paginaMensagem.classList.remove("escondida");
-    verificarParticipantesAtivos();
-    console.log(participantesAtivos)
+
 }
 
 function voltarPaginaMsg(){

@@ -183,14 +183,6 @@ header .logo{
   margin-bottom: 4px;
 }
 
-.nomeUsuario{
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 16px;
-  letter-spacing: 0em;
-  text-align: left;
-}
 
 .mensagemDigitada::placeholder{
   font-family: 'Roboto', sans-serif;
@@ -330,6 +322,7 @@ textarea:focus, .mensagemDigitada:focus, select:focus {
   margin-right: 20px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .usuario ion-icon{

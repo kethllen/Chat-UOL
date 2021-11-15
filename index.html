@@ -15,8 +15,8 @@
     <section class="paginaInicial">
         <img class = "logo" src="./assets/logo 2.png" alt="">
         <div class="paginaPedirDados">
-            <input  class= "nome" type="text" placeholder="Digite seu nome">
-            <button class ="submeterUsuario" onclick="enviarUsuario('.paginaPedirDados','.paginaCarregando')">Enviar</button>
+            <input  class= "nome" type="text" placeholder="Digite seu nome" data-identifier="enter-name">
+            <button class ="submeterUsuario" data-identifier="start" onclick="enviarUsuario('.paginaPedirDados','.paginaCarregando')">Enviar</button>
         </div>
         <div class="paginaCarregando escondida">
             <img class ="carregando" src="./assets/Loading.gif" alt="">
@@ -35,7 +35,7 @@
                 <input class= "mensagemDigitada" type="text" placeholder="Escreva aqui ...">
                 <label class= "frasePlaceholder">Enviando para Todos (Público)</label>
             </div>
-            <ion-icon class="ion-aviao" name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+            <ion-icon class="ion-aviao" name="paper-plane-outline" data-identifier="send-message" onclick="enviarMensagem()"></ion-icon>
         </footer>
     </section>
     <section class="classificarMsg escondida">
@@ -59,14 +59,14 @@
                 Escolha a visibilidade:
             </div>
             <div class="escolhaVisibilidade">
-                <div class="visibilidade checkVisi" onclick="checkVisibilidade(this)">
+                <div class="visibilidade checkVisi" onclick="checkVisibilidade(this)" data-identifier="visibility">
                     <div class =".nomeVisibilidade">
                         <ion-icon name="lock-open"></ion-icon>
-                        <span class="modomsg">Public</span>
+                        <span class="modomsg">Publico</span>
                     </div>
                     <ion-icon class="checkVisibilidade" name="checkmark-sharp"></ion-icon>
                 </div>
-                <div class="visibilidade" onclick="checkVisibilidade(this)">
+                <div class="visibilidade" onclick="checkVisibilidade(this)" data-identifier="visibility">
                     <div class =".nomeVisibilidade">
                         <ion-icon name="lock-closed"></ion-icon>
                         <span class="modomsg">Reservadamente</span>

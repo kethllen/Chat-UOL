@@ -296,9 +296,15 @@ textarea:focus, .mensagemDigitada:focus, select:focus {
 .conteudo{
   position: absolute;
   right: 0;
+  overflow: hidden;
+  overflow-y: inherit ;
   height: 100vh;
   width: 260px;
   background-color: #FFFFFF;
+}
+
+.conteudo ::-webkit-scrollbar{
+  display: none;
 }
 
 .tituloUsuarios{

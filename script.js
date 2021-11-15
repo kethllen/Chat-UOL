@@ -30,6 +30,7 @@ function pegarMensagem(retorno = ""){
         entrandoPrimeiraVez = false;
         setInterval(() => { verificarLogin();}, 5000);
         setInterval(() => { recarregarMensagem();}, 3000);
+        setInterval(() => { verificarParticipantesAtivos();}, 10000);
     }
     const promessa = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promessa.then(carregarMensagem);
@@ -76,13 +77,13 @@ function verificarParticipantesAtivos(){
                     });
                 }
             }
-            
+
         }
     }
     for(let j=0; j < Object.keys(participantesAtivos).length; j++){
         if((participantesAtivos[j].cont) % 2 !== 0){
             online.innerHTML +=`
-            <div class="usuario checkUser" onclick="checkUsuario(this)">
+            <div class="usuario" onclick="checkUsuario(this)" data-identifier="participant">
                 <div class="nomeUsuario">
                     <ion-icon name="people"></ion-icon>
                     <span class="tipoUsuario">${participantesAtivos[j].from}</span>
@@ -91,7 +92,7 @@ function verificarParticipantesAtivos(){
             </div>`
         }
     }
-    //verificar se chegou mesadem nova
+
 }
 
 function checkVisibilidade(opcao){
@@ -127,31 +128,19 @@ function tratarErro(erro){
         nomeUsuario.value = "";
         nomeUsuario.classList.add("nomeIncorreto");
         nomeUsuario.placeholder ="nome de usuario invalido";
+    }else{
+        console.log(erro.response);
+        window.location.reload();
     }
-    console.log(erro.response);
+    
 }
 
 
 function carregarMensagem(resposta){
 
-    const entrada = document.querySelector(".paginaInicial");
     let listamensagens = resposta.data;
-    //let indice = null;
-    const paginaMensagem = document.querySelector(".paginaMensagem")
     const mensagens = document.querySelector(".mensagens")
     mensagens.innerHTML="";
-    //if(PaginaInicialParaMensagem == true){
-        
-      //  console("nao sou a primeira")
-        // let cont = Object.keys(mensagensRetorno).length-1;
-        // for(let i=0; i< Object.keys(listamensagens).length; i++){
-        //     console.log("estou no for")
-        //     if(listamensagens[i]==mensagensRetorno[cont]){
-        //         console.log(listamensagens[i])
-        //         indice=i;
-        //     }
-        // }
-    //}
     for(let i=0; i< Object.keys(listamensagens).length; i++){
         if((listamensagens[i].from).length > 15)
         {
@@ -164,14 +153,14 @@ function carregarMensagem(resposta){
         if(listamensagens[i].type == 'status'){
             if(i==Object.keys(listamensagens).length-1 ){
                 mensagens.innerHTML += `
-                <div class ="mensagem entrarSala">
+                <div class ="mensagem entrarSala" data-identifier="message">
                     <div class="horario">${listamensagens[i].time}</div>
                     <div class="nomeUsuario ultimo">${listamensagens[i].from}</div>
                     <div class="texto">${listamensagens[i].text}</div>
                 </div> `    
             }else{
                 mensagens.innerHTML += `
-                <div class ="mensagem entrarSala">
+                <div class ="mensagem entrarSala" data-identifier="message">
                     <div class="horario">${listamensagens[i].time}</div>
                     <div class="nomeUsuario">${listamensagens[i].from}</div>
                     <div class="texto">${listamensagens[i].text}</div>
@@ -180,7 +169,7 @@ function carregarMensagem(resposta){
         }else if(listamensagens[i].type == "message"){
             if(i==Object.keys(listamensagens).length-1){
                 mensagens.innerHTML += `
-                <div class ="mensagem mensagemComum">
+                <div class ="mensagem mensagemComum" data-identifier="message">
                     <div class="horario">${listamensagens[i].time}</div>
                     <div class="nomeUsuario  ultimo">${listamensagens[i].from}</div>
                     <span class="texto2">para</span>
@@ -189,7 +178,7 @@ function carregarMensagem(resposta){
                 </div> `
             }else{
                 mensagens.innerHTML += `
-                <div class ="mensagem mensagemComum">
+                <div class ="mensagem mensagemComum" data-identifier="message">
                     <div class="horario">${listamensagens[i].time}</div>
                     <div class="nomeUsuario">${listamensagens[i].from}</div>
                     <span class="texto2">para</span>
@@ -202,7 +191,7 @@ function carregarMensagem(resposta){
             if(listamensagens[i].from == usuario.name || listamensagens[i].to == usuario.name){
                 if(i==Object.keys(listamensagens).length-1){
                     mensagens.innerHTML += `
-                    <div class ="mensagem mensagemReservada">
+                    <div class ="mensagem mensagemReservada" data-identifier="message">
                         <div class="horario">${listamensagens[i].time}</div>
                         <div class="nomeUsuario ultimo">${listamensagens[i].from}</div>
                         <span class="texto2">para</span>
@@ -211,7 +200,7 @@ function carregarMensagem(resposta){
                     </div> `
                 }else{
                     mensagens.innerHTML += `
-                    <div class ="mensagem mensagemReservada">
+                    <div class ="mensagem mensagemReservada" data-identifier="message">
                         <div class="horario">${listamensagens[i].time}</div>
                         <div class="nomeUsuario">${listamensagens[i].from}</div>
                         <span class="texto2">para</span>
@@ -246,21 +235,19 @@ inputmsg.addEventListener('keyup', function(e){
   }
 });
 
-const inputnome = document.querySelector(".nome");
-inputnome.addEventListener('keyup', function(e){
-  var key = e.which || e.keyCode;
-  if (key == 13) {
-      enviarUsuario();
-  }
-});
 
 function enviarMensagem(){
     const inputmsg = document.querySelector(".mensagemDigitada");
+    let tipoMensagem="message";
+    if(modoVisibilidade == "Reservadamente")
+    {
+        tipoMensagem="private_message";
+    }
     const mensagem ={
             from: usuario.name,
-            to: "Todos",
+            to: tipoUsuario,
             text: inputmsg.value,
-            type: "message" // ou "private_message" para o bônus
+            type: tipoMensagem // ou "private_message" para o bônus
         }
     const promessa = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", mensagem);
     promessa.then(pegarMensagem);

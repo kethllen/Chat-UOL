@@ -60,7 +60,6 @@ function verificarParticipantesAtivos(){
                     from: mensagensRetorno[i].from,
                     cont: 1
                 });
-                console.log(participantesAtivos);
             }
             else{
                 let controle=false;
@@ -220,7 +219,6 @@ function carregarMensagem(resposta){
 
     if(JSON.stringify(mensagemAntiga) !== JSON.stringify(mensagemNova)){
         const elementoQueQueroQueApareca = document.querySelector('.ultimo');
-        console.log(elementoQueQueroQueApareca)
         elementoQueQueroQueApareca.scrollIntoView();
     }
     
@@ -265,7 +263,6 @@ function usuariosAtivos(){
     const paginaMensagem = document.querySelector(".classificarMsg")
     paginaMensagem.classList.remove("escondida");
     verificarParticipantesAtivos();
-    console.log(participantesAtivos)
 }
 
 function voltarPaginaMsg(){

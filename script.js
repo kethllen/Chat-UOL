@@ -136,10 +136,22 @@ function carregarMensagem(resposta){
 
     const entrada = document.querySelector(".paginaInicial");
     let listamensagens = resposta.data;
-    let cont =0;
+    //let indice = null;
     const paginaMensagem = document.querySelector(".paginaMensagem")
     const mensagens = document.querySelector(".mensagens")
     mensagens.innerHTML="";
+    //if(PaginaInicialParaMensagem == true){
+        
+      //  console("nao sou a primeira")
+        // let cont = Object.keys(mensagensRetorno).length-1;
+        // for(let i=0; i< Object.keys(listamensagens).length; i++){
+        //     console.log("estou no for")
+        //     if(listamensagens[i]==mensagensRetorno[cont]){
+        //         console.log(listamensagens[i])
+        //         indice=i;
+        //     }
+        // }
+    //}
     for(let i=0; i< Object.keys(listamensagens).length; i++){
         if((listamensagens[i].from).length > 15)
         {
@@ -150,13 +162,32 @@ function carregarMensagem(resposta){
             listamensagens[i].to = (listamensagens[i].to).substring(0,15);
         }
         if(listamensagens[i].type == 'status'){
+            if(i==Object.keys(listamensagens).length-1 ){
+                mensagens.innerHTML += `
+                <div class ="mensagem entrarSala">
+                    <div class="horario">${listamensagens[i].time}</div>
+                    <div class="nomeUsuario ultimo">${listamensagens[i].from}</div>
+                    <div class="texto">${listamensagens[i].text}</div>
+                </div> `    
+            }else{
                 mensagens.innerHTML += `
                 <div class ="mensagem entrarSala">
                     <div class="horario">${listamensagens[i].time}</div>
                     <div class="nomeUsuario">${listamensagens[i].from}</div>
                     <div class="texto">${listamensagens[i].text}</div>
-                </div> `          
+                </div> ` 
+            }   
         }else if(listamensagens[i].type == "message"){
+            if(i==Object.keys(listamensagens).length-1){
+                mensagens.innerHTML += `
+                <div class ="mensagem mensagemComum">
+                    <div class="horario">${listamensagens[i].time}</div>
+                    <div class="nomeUsuario  ultimo">${listamensagens[i].from}</div>
+                    <span class="texto2">para</span>
+                    <div class="nomeUsuario">${listamensagens[i].to}:</div>
+                    <div class="texto">${listamensagens[i].text}</div>
+                </div> `
+            }else{
                 mensagens.innerHTML += `
                 <div class ="mensagem mensagemComum">
                     <div class="horario">${listamensagens[i].time}</div>
@@ -164,9 +195,21 @@ function carregarMensagem(resposta){
                     <span class="texto2">para</span>
                     <div class="nomeUsuario">${listamensagens[i].to}:</div>
                     <div class="texto">${listamensagens[i].text}</div>
-                </div> `    
+                </div> `
+
+            }
         }else if(listamensagens[i].type =='private_message'){
             if(listamensagens[i].from == usuario.name || listamensagens[i].to == usuario.name){
+                if(i==Object.keys(listamensagens).length-1){
+                    mensagens.innerHTML += `
+                    <div class ="mensagem mensagemReservada">
+                        <div class="horario">${listamensagens[i].time}</div>
+                        <div class="nomeUsuario ultimo">${listamensagens[i].from}</div>
+                        <span class="texto2">para</span>
+                        <div class="nomeUsuario">${listamensagens[i].to}:</div>
+                        <div class="texto">${listamensagens[i].text}</div>
+                    </div> `
+                }else{
                     mensagens.innerHTML += `
                     <div class ="mensagem mensagemReservada">
                         <div class="horario">${listamensagens[i].time}</div>
@@ -174,16 +217,25 @@ function carregarMensagem(resposta){
                         <span class="texto2">para</span>
                         <div class="nomeUsuario">${listamensagens[i].to}:</div>
                         <div class="texto">${listamensagens[i].text}</div>
-                    </div> `    
+                    </div> `
+                }    
            }
-        }
-        mensagensRetorno = listamensagens;
-        
+        }        
     }
     if(PaginaInicialParaMensagem == false){
         PaginaInicialParaMensagem = true;
         trocarPagina(".paginaInicial",".paginaMensagem");
     }
+    let mensagemAntiga = mensagensRetorno;
+    let mensagemNova = listamensagens;
+
+    if(JSON.stringify(mensagemAntiga) !== JSON.stringify(mensagemNova)){
+        const elementoQueQueroQueApareca = document.querySelector('.ultimo');
+        console.log(elementoQueQueroQueApareca)
+        elementoQueQueroQueApareca.scrollIntoView();
+    }
+    
+    mensagensRetorno = listamensagens;
 }
 
 const inputmsg = document.querySelector(".mensagemDigitada");
